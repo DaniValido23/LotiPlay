@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loty_play/configs/carousel_sports.dart';
+import 'package:loty_play/configs/sports_list.dart';
 import 'package:loty_play/presentation/screens.dart';
 import 'package:loty_play/widgets/bottom_nav_bar_home.dart';
 

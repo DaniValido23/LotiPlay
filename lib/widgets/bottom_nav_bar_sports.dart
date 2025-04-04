@@ -4,11 +4,13 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:loty_play/configs/bottom_navigation_sport.dart';
 import 'package:loty_play/providers/bottom_nav_bar_provider.dart';
 
-class BottomNavBarBaseball extends ConsumerWidget {
-  const BottomNavBarBaseball({
+class BottomNavBarSport extends ConsumerWidget {
+  const BottomNavBarSport({
     super.key,
+    required this.color,
   });
 
+  final Color color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,9 +20,9 @@ class BottomNavBarBaseball extends ConsumerWidget {
       child: GNav(
         selectedIndex: index,
         color: Colors.blueGrey,
-        activeColor: Colors.blueAccent,
+        activeColor: color,
         iconSize: 25,
-        tabBackgroundColor: Colors.blue.withOpacity(0.1),
+        tabBackgroundColor: color.withOpacity(0.1),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         tabs: [
           for(final menuItem in bottomNavSports)
