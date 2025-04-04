@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loty_play/configs/carousel_sports.dart';
 import 'package:loty_play/presentation/screens.dart';
-import 'package:loty_play/widgets/bottom_nav_bar.dart';
+import 'package:loty_play/widgets/bottom_nav_bar_home.dart';
 
 class Routes {
   static const String home = '/';
   static const String settings = '/settings';
-  static const String futbol = '/futbol';
-  static const String baseball = '/baseball';
-  static const String basketball = '/basketball';
-  static const String boxing = '/boxing';
+  static const String sport = '/sport';
 }
 
 final router = GoRouter(
@@ -41,22 +39,12 @@ final router = GoRouter(
       ],
     ),
 
-
     GoRoute(
-      path: Routes.futbol,
-      builder: (context, state) => const FutbolScreen(),
-    ),
-    GoRoute(
-      path: Routes.baseball,
-      builder: (context, state) => const BaseballScreen(),
-    ),
-    GoRoute(
-      path: Routes.basketball,
-      builder: (context, state) => const BasketballScreen(),
-    ),
-    GoRoute(
-      path: Routes.boxing,
-      builder: (context, state) => const BoxingScreen(),
+      path: Routes.sport,
+      builder: (context, state) {
+        final sport = state.extra as Sport; 
+        return SportScreen(sport: sport);
+      },
     ),
   ],
 );

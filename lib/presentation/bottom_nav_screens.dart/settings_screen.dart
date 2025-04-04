@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loty_play/providers/theme_provider.dart';
+import 'package:loty_play/providers/commission_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -10,9 +13,11 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class _SettingsView extends StatelessWidget {
+class _SettingsView extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final bool isDarkMode = ref.watch(darkThemeProvider);
+
     return SafeArea(
       child: Column(
         children: [
@@ -29,30 +34,45 @@ class _SettingsView extends StatelessWidget {
             child: ListView(
               children: [
                 ListTile(
-                  title: const Text("Notificaciones"),
+                  title: const Text("Modo Oscuro"),
                   trailing: Switch(
-                    value: true,
-                    onChanged: (value) {},
+                    value: isDarkMode,
+                    onChanged: (value) {
+                      ref.read(darkThemeProvider.notifier).state = !isDarkMode;
+                    },
                   ),
                 ),
-                ListTile(
-                  title: const Text("Idioma"),
-                  trailing: DropdownButton<String>(
-                    value: 'Español',
-                    items: <String>['Español', 'Inglés'].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {},
-                  ),
-                ),
+                const CommissionSlider(),
+                
               ],
             ),
           )
         ],
       )
+    );
+  }
+}
+
+class CommissionSlider extends ConsumerWidget {
+  const CommissionSlider({super.key});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final double commission = ref.watch(commissionProvider);
+
+    return ListTile(
+      title: const Text("Comisión"),
+      subtitle: Slider(
+        value: commission,
+        min: 0.0,
+        max: 50.0,
+        divisions: 10,
+        label: "${commission.round()}%",
+        onChanged: (value) {
+          ref.read(commissionProvider.notifier).state = value;
+        },
+      ),
+      trailing: Text("${commission.round()}%", style: const TextStyle(fontSize: 20)),
     );
   }
 }

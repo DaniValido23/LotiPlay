@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:loty_play/configs/bottom_navigation.dart';
+import 'package:loty_play/configs/bottom_navigation_home.dart';
 import 'package:loty_play/configs/router.dart';
 import 'package:loty_play/providers/bottom_nav_bar_provider.dart';
 

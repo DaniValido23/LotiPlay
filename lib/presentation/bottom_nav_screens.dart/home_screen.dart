@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loty_play/configs/carousel_sports.dart';
+import 'package:loty_play/providers/theme_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,11 +16,10 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: const Text(
-              "Selecciona un deporte",
+              "Selecciona tu deporte",
               style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500),
             ),
           ),
-          const SizedBox(height: 20),
           _ScreenView(),
         ],
       ),
@@ -26,34 +27,40 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _ScreenView extends StatelessWidget {
+class _ScreenView extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return Expanded(
-      child: GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: 0.70,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        children: [
-          for (final sport in sportsList)
-            GestureDetector(
-              onTap: () {
-                context.push(sport.route);
-              },
-
-              child: Container(
-                decoration: BoxDecoration(
-                  color: sport.color,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Expanded(child: Image.asset(sport.image, fit: BoxFit.cover))],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: 0.60,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          children: [
+            for (final sport in sportsList)
+              GestureDetector(
+                onTap: () {
+                  ref.read(selectedColorProvider.notifier).state = sportsList.indexOf(sport);
+                  context.push(
+                    sport.route,
+                    extra: sport,
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: sport.color,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Expanded(child: Image.asset(sport.image, fit: BoxFit.cover))],
+                  ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
